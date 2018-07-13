@@ -12,8 +12,14 @@ Encore
 
     // uncomment to define the assets of the project
     .addEntry('js/app', './assets/js/app.js')
-    .addStyleEntry('css/base', './assets/css/base.scss')
+    .addStyleEntry('css/app', './assets/css/base.scss')
+    .createSharedEntry('vendor', [
+        'jquery',
+        'mdbootstrap',
+        'bootstrap',
+        'mdbootstrap/scss/style.scss',
 
+    ])
     // uncomment if you use Sass/SCSS files
     .enableSassLoader()
 

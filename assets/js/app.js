@@ -1,1 +1,2 @@
-import 'bootstrap/dist/css/bootstrap.css';
+require('bootstrap');
+require('mdbootstrap');
