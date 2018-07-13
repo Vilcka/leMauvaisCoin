@@ -1,27 +1,44 @@
-# see https://github.com/symfony/recipes/blob/master/symfony/security-bundle/3.3/config/packages/security.yaml
 security:
     encoders:
-        MsgPhp\User\Infra\Security\SecurityUser: bcrypt
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+        App\Entity\User: bcrypt
+
+    providers:
+        database_users:
+            entity: { class: App\Entity\User, property: username }
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-            # activate different ways to authenticate
 
-            # http_basic: true
-            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+        main:
+            # les urls auxquels s'appliquent ce firewall, dans ce cas, ce sont toutes les urls
+            pattern: ^/
 
-            # https://symfony.com/doc/current/security/form_login_setup.html
+            # La connexion n'est pas requise sur toutes les pages
+            # par exemple la page d'accueil
+            anonymous: true
+
             form_login:
-                login_path: /login
-                check_path: /login
-                default_target_path: /profile
-                username_parameter: nickname
-                password_parameter: password
+                # Le nom de la route de la page de connexion
+                check_path: security_login
+                # Le nom de la route où se trouve le formulaire de connexion
+                # Si un utilisateur tente d'acceder à une page protégée sans en avoir les droits
+                # il sera redirigé sur cette page
+                login_path: security_login
+                # Securisation des formulaires
+                csrf_token_generator: security.csrf.token_manager
+                # La page par defaut apres une connexion reussie
+                default_target_path: admin
 
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
+            logout:
+                # La route où se trouve le process de deconnexion
+                path: security_logout
+                # La route sur laquelle doit etre rediriger l'utilisateur apres une deconnexion
+                target: index
+
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/profile, roles: IS_AUTHENTICATED_FULLY }
+        # Les regles de securité
+        # Là dans ce cas seul les utilisateurs ayant le rôle ROLE_ADMIN
+        # peuvent acceder à toutes les pages commençant par /admin
+        - { path: '^/admin', roles: ROLE_ADMIN }
