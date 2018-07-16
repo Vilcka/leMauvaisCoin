@@ -11,15 +11,10 @@ Encore
     // .enableVersioning(Encore.isProduction())
 
     // uncomment to define the assets of the project
-    .addEntry('js/app', './assets/js/app.js')
-    .addStyleEntry('css/app', './assets/css/base.scss')
-    .createSharedEntry('vendor', [
-        'jquery',
-        'mdbootstrap',
-        'bootstrap',
-        'mdbootstrap/scss/style.scss',
 
-    ])
+    .addEntry('css/app', './assets/js/app.js')
+    .addEntry('js/mdbootstrap', 'mdbootstrap')
+    .addStyleEntry('css/base', './assets/css/base.scss')
     // uncomment if you use Sass/SCSS files
     .enableSassLoader()
 
