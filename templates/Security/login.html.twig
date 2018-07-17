@@ -1,35 +1,27 @@
 {% extends 'base.html.twig' %}
-
 {% block body %}
-    {% if error %}
-        <div class="alert alert-danger">
-            {{ error.messageKey }}
-        </div>
-    {% endif %}
+    <div class="container">
+        <form action="{{ path('security_login') }}" method="post">
+            <p class="h4 text-center my -4">Connexion</p>
 
+            <!-- Material input email -->
+            <div class="md-form">
+                <i class="fa fa-user prefix grey-text" aria-hidden="true"></i>
+                <input type="text" id="username" name="_username" class="form-control validate"/>
+                <label for="username">Username</label>
+            </div>
 
-    <div class="row">
-    <div class="col-sm-5">
-        <div class="well">
-            <form action="{{ path('security_login') }}" method="post">
-                <fieldset>
-                    <legend><i class="fa fa-lock" aria-hidden="true"></i> Connexion</legend>
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <input type="text" id="username" name="_username" value="{{ last_username }}" class="form-control"/>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Mot de passe</label>
-                        <input type="password" id="password" name="_password" class="form-control" />
-                    </div>
-                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fa fa-sign-in" aria-hidden="true"></i> On entre
-                    </button>
-                </fieldset>
-            </form>
-        </div>
+            <!-- Material input password -->
+            <div class="md-form">
+                <i class="fa fa-lock prefix grey-text"></i>
+                <input type="password" id="password" name="_password" class="form-control" />
+                <label for="password">Votre Mot de passe</label>
+            </div>
+
+            <div class="text-center mt-4">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
+                <button class="btn btn-indigo">Se Connecter <i class="fa fa-paper-plane ml-1"></i></button>
+            </div>
+        </form>
     </div>
-
-
 {% endblock %}

@@ -8,11 +8,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class HomepageController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/", name="Homepage")
      */
     public function index()
     {
-        return $this->render('homepage/index.html.twig', [
+        return $this->render('Homepage/index.html.twig', [
             'controller_name' => 'HomepageController',
         ]);
     }

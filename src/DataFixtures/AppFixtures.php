@@ -13,9 +13,10 @@ class AppFixtures extends Fixture
     }
     public function load(ObjectManager $manager)
     {
-        foreach ($this->getUserData() as [$fullname, $username, $password, $email, $roles]) {
+        foreach ($this->getUserData() as [$firstName, $lastName, $username, $password, $email, $roles]) {
             $user = new User();
-            $user->setFullName($fullname);
+            $user->setFirstName($firstName);
+            $user->setLastName($lastName);
             $user->setUsername($username);
             $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
             $user->setEmail($email);
@@ -28,10 +29,10 @@ class AppFixtures extends Fixture
     private function getUserData(): array
     {
         return [
-            // $userData = [$fullname, $username, $password, $email, $roles];
-            ['Jane Doe', 'jane_admin', 'kitten', 'jane_admin@symfony.com', ['ROLE_ADMIN']],
-            ['Tom Doe', 'tom_admin', 'kitten', 'tom_admin@symfony.com', ['ROLE_ADMIN']],
-            ['John Doe', 'john_user', 'kitten', 'john_user@symfony.com', ['ROLE_USER']],
+            // $userData = [$firstName, $lastName, $username, $password, $email, $roles];
+            ['User0', 'yolo', 'User0Yolo','azerty', 'jane_admin@symfony.com', ['ROLE_ADMIN']],
+            ['Tom ', 'Doe', 'TomDoe' ,'kitten', 'tom_admin@symfony.com', ['ROLE_ADMIN']],
+            ['John', ' Doe', 'JohnDoe','kitten', 'john_user@symfony.com', ['ROLE_USER']],
         ];
     }
 }

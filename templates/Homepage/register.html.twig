@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container">
+        {{ form_start(form) }}
+            <p class="h4 text-center my-4">S'inscrire</p>
+            <div class="md-form">
+                {{ form_widget(form.firstName, {'attr': {'class': 'form-control validate'}}) }}
+                {{ form_label(form.firstName) }}
+                {{ form_errors(form.firstName) }}
+            </div>
+
+            <div class="md-form">
+                {{ form_widget(form.lastName, {'attr': {'class': 'form-control validate'}}) }}
+                {{ form_label(form.lastName) }}
+                {{ form_errors(form.lastName) }}
+            </div>
+            <div class="md-form">
+                {{ form_widget(form.username, {'attr': {'class': 'form-control validate'}}) }}
+                {{ form_label(form.username)}}
+                {{ form_errors(form.username) }}
+            </div>
+            <div class="md-form">
+                {{ form_widget(form.email, {'attr': {'class': 'form-control validate'}}) }}
+                {{ form_label(form.email) }}
+                {{ form_errors(form.email) }}
+            </div>
+            <div class="md-form">
+                {{ form_widget(form.password.first, {'attr': {'class': 'form-control validate'}}) }}
+                {{ form_label(form.password.first) }}
+                {{ form_errors(form.password.first) }}
+            </div>
+            <div class="md-form">
+                {{ form_widget(form.password.second, {'attr': {'class': 'form-control validate'}}) }}
+                {{ form_label(form.password.second) }}
+                {{ form_errors(form.password.second) }}
+            </div>
+            <button type="submit" class="btn btn-indigo">S'inscrire !<i class="fa fa-paper-plane ml-1" aria-hidden="true"></i></i></button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

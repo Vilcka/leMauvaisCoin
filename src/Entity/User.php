@@ -2,6 +2,8 @@
 // /src/Entity/User.php
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -30,7 +32,15 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
      */
-    private $fullName;
+    private $firstName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     */
+    private $lastName;
 
     /**
      * @var string
@@ -63,20 +73,41 @@ class User implements UserInterface, \Serializable
      */
     private $roles = [];
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Annonce", mappedBy="creator_id")
+     */
+    private $annonces;
+
+    public function __construct()
+    {
+        $this->annonces = new ArrayCollection();
+    }
+
     public function getId(): int
     {
         return $this->id;
     }
 
-    public function setFullName(string $fullName): void
+    public function setFirstName(string $firstName): void
     {
-        $this->fullName = $fullName;
+        $this->firstName = $firstName;
     }
 
     // le ? signifie que cela peur aussi retourner null
-    public function getFullName(): ?string
+    public function getFirstName(): ?string
     {
-        return $this->fullName;
+        return $this->firstName;
+    }
+
+    public function setLastName(string $lastName): void
+    {
+        $this->lastName = $lastName;
+    }
+
+    // le ? signifie que cela peur aussi retourner null
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
     }
 
     public function getUsername(): ?string
@@ -166,5 +197,36 @@ class User implements UserInterface, \Serializable
     public function unserialize($serialized): void
     {
         [$this->id, $this->username, $this->password] = unserialize($serialized, ['allowed_classes' => false]);
+    }
+
+    /**
+     * @return Collection|Annonce[]
+     */
+    public function getAnnonces(): Collection
+    {
+        return $this->annonces;
+    }
+
+    public function addAnnonce(Annonce $annonce): self
+    {
+        if (!$this->annonces->contains($annonce)) {
+            $this->annonces[] = $annonce;
+            $annonce->setCreatorId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnnonce(Annonce $annonce): self
+    {
+        if ($this->annonces->contains($annonce)) {
+            $this->annonces->removeElement($annonce);
+            // set the owning side to null (unless already changed)
+            if ($annonce->getCreatorId() === $this) {
+                $annonce->setCreatorId(null);
+            }
+        }
+
+        return $this;
     }
 }
