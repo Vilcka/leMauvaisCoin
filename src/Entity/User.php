@@ -78,6 +78,11 @@ class User implements UserInterface, \Serializable
      */
     private $annonces;
 
+    public function __toString()
+    {
+        return $this->getUsername();
+    }
+
     public function __construct()
     {
         $this->annonces = new ArrayCollection();

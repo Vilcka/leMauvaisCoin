@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/annonce")
@@ -17,6 +18,8 @@ class AnnonceController extends Controller
 {
     /**
      * @Route("/", name="annonce_index", methods="GET")
+     * @param AnnonceRepository $annonceRepository
+     * @return Response
      */
     public function index(AnnonceRepository $annonceRepository): Response
     {
@@ -25,12 +28,19 @@ class AnnonceController extends Controller
 
     /**
      * @Route("/new", name="annonce_new", methods="GET|POST")
+     * @param Request $request
+     * @param Security $security
+     * @return Response
      */
-    public function new(Request $request): Response
+    public function new(Request $request, Security $security): Response
     {
-        $annonce = new Annonce();
-        $form = $this->createForm(AnnonceType::class, $annonce);
-        $form->handleRequest($request);
+        if ($security->getUser()) {
+            $annonce = new Annonce();
+            $form = $this->createForm(AnnonceType::class, $annonce);
+            $form->handleRequest($request);
+            $user = $this->getUser();
+            $annonce->setCreatorId($user);
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -43,11 +53,14 @@ class AnnonceController extends Controller
         return $this->render('annonce/new.html.twig', [
             'annonce' => $annonce,
             'form' => $form->createView(),
+
         ]);
     }
 
     /**
      * @Route("/{id}", name="annonce_show", methods="GET")
+     * @param Annonce $annonce
+     * @return Response
      */
     public function show(Annonce $annonce): Response
     {
@@ -56,6 +69,9 @@ class AnnonceController extends Controller
 
     /**
      * @Route("/{id}/edit", name="annonce_edit", methods="GET|POST")
+     * @param Request $request
+     * @param Annonce $annonce
+     * @return Response
      */
     public function edit(Request $request, Annonce $annonce): Response
     {
@@ -76,6 +92,9 @@ class AnnonceController extends Controller
 
     /**
      * @Route("/{id}", name="annonce_delete", methods="DELETE")
+     * @param Request $request
+     * @param Annonce $annonce
+     * @return Response
      */
     public function delete(Request $request, Annonce $annonce): Response
     {

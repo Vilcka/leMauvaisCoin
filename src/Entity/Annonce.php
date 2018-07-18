@@ -83,6 +83,10 @@ class Annonce
         return $this->creator_id;
     }
 
+    /**
+     * @param User|null $creator_id
+     * @return Annonce
+     */
     public function setCreatorId(?User $creator_id): self
     {
         $this->creator_id = $creator_id;

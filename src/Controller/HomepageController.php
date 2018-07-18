@@ -12,7 +12,9 @@ class HomepageController extends Controller
      */
     public function index()
     {
+        $user = $this->getUser();
         return $this->render('Homepage/index.html.twig', [
+
             'controller_name' => 'HomepageController',
         ]);
     }

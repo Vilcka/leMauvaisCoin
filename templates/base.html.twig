@@ -12,6 +12,17 @@
     <nav class="navbar navbar-expand-lg navbar-dark primary-color">
         <!-- Navbar brand -->
         <a class="navbar-brand" href="{{ path('Homepage') }}">EntreVous</a>
+        <div class="btn-group">
+            <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Basic dropdown</button>
+
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Separated link</a>
+            </div>
+        </div>
         <!-- Collapse button -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav"
                 aria-expanded="false" aria-label="Toggle navigation">
@@ -20,16 +31,24 @@
         <!-- Collapsible content -->
         <div class="collapse navbar-collapse" id="basicExampleNav">
             <ul class="navbar-nav ml-auto font-weight-bold">
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <li class="nav-item">
                     <div class="text-center">
-                        <a href="{{ path('user_registration') }}" class="btn btn-default btn-rounded ">S'inscrire</a>
+                        <a href="{{ path('annonce_new') }}" class="btn btn-default ">Nouvelle Annonce</a>
+                    </div>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <div class="text-center">
+                        <a href="{{ path('user_registration') }}" class="btn btn-default ">S'inscrire</a>
                     </div>
                 </li>
                 <li class="nav-item">
                     <div class="text-center">
-                        <a href="{{ path('security_login') }}" class="btn btn-default btn-rounded ">Connexion</a>
+                        <a href="{{ path('security_login') }}" class="btn btn-default  ">Connexion</a>
                     </div>
                 </li>
+            {% endif %}
             </ul>
         </div>
     </nav>
